@@ -15,7 +15,7 @@ panelThickness = 2.0;
 textHeight = panelThickness + 1.5;
 panelHp=20;
 holeCount=4;
-holeWidth = 6.08; //If you want wider holes for easier mounting. Otherwise set to any number lower than mountHoleDiameter. Can be passed in as parameter to kosmoPanel()
+holeWidth = 4.0; //If you want wider holes for easier mounting. Otherwise set to any number lower than mountHoleDiameter. Can be passed in as parameter to kosmoPanel()
 
 fiveUHeight = 175.00; // practical height
 panelOuterHeight = 200.0; //metric 5U height
@@ -24,17 +24,18 @@ railHeight = (fiveUHeight-panelOuterHeight)/2;
 mountSurfaceHeight = (panelOuterHeight-panelInnerHeight-railHeight*2)/2;
 
 hp=width_cm/2;
-mountHoleDiameter = 6.2;
+mountHoleDiameter = 4.0;
 mountHoleRad =mountHoleDiameter/2;
 hwCubeWidth = holeWidth-mountHoleDiameter;
 
 offsetToMountHoleCenterY=mountSurfaceHeight/2;
 offsetToMountHoleCenterX = hp - hwCubeWidth/2; // 1 hp from side to center of hole
 
-quarterInchJackHole = 9.6;
+quarterInchJackHole = 10;
 eighthInchJackHole = 6.10;
-switchHole = 6.10;
+switchHole = 7.10;
 potHole = 7.10;
+trimHole = 2.5;
 
 /* Functions */
 module kosmoPanel(panelHp,  mountHoles=2, hw = holeWidth, ignoreMountHoles=false)
@@ -184,4 +185,4 @@ module punchHole(x, y, holeSize){
 }
 
 /* Main */
-kosmoPanel(panelHp, holeCount,holeWidth);
+kosmoPanel(panelHp, holeCount, holeWidth);
