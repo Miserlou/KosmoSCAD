@@ -2,13 +2,15 @@
 // v2 by @Miserlou: https://github.com/Miserlou/KosmoSCAD
 // v1 by @tomarus: https://github.com/tomarus/prototype
 
+include <chamfer_extrude.scad>; 
+
 /* Edit Me! */
 width_cm = 7.5;
 
-panelName = "UTLTY";
-panelNameFont = "Gill Sans:style=Bold";
+panelName = "U T L T";
+panelNameFont = "Gill Sans";
 panelNameSize = 10;
-panelNameLeftOffset = 2;
+panelNameLeftOffset = 0;
 
 /* Constants */
 panelThickness = 2.0;
@@ -42,7 +44,7 @@ module kosmoPanel(panelHp,  mountHoles=2, hw = holeWidth, ignoreMountHoles=false
 {
     //mountHoles ought to be even. Odd values are -=1
     difference(){
-        cube([hp*panelHp,panelOuterHeight,panelThickness]);
+        cube([hp*panelHp, panelOuterHeight, panelThickness]);
         if(!ignoreMountHoles){
             kosmoMountHoles(panelHp, mountHoles, holeWidth);
         }
@@ -82,7 +84,7 @@ module kosmoPanel(panelHp,  mountHoles=2, hw = holeWidth, ignoreMountHoles=false
         union(){
             translate([panelHp*3 + panelNameLeftOffset, fiveUHeight + 11, -.5]){
                 mirror(v=[1,0,0]){
-                    linear_extrude(panelThickness/2) {
+                    chamfer_extrude(height=panelThickness, angle=55, $fn=0){
                         text(panelName, font=panelNameFont, size=panelNameSize, halign="left");
                         }
                     }
