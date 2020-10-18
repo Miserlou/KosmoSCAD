@@ -5,10 +5,10 @@
 /* Edit Me! */
 width_cm = 7.5;
 
-panelName = "Utility";
+panelName = "UTLTY";
 panelNameFont = "Gill Sans:style=Bold";
-panelNameSize = 12;
-panelNameLeftOffset = 0;
+panelNameSize = 10;
+panelNameLeftOffset = 2;
 
 /* Constants */
 panelThickness = 2.0;
@@ -67,18 +67,28 @@ module kosmoPanel(panelHp,  mountHoles=2, hw = holeWidth, ignoreMountHoles=false
        punchHole(55, 110, quarterInchJackHole);
        
        // Switch
-       punchHole(20, 80, quarterInchJackHole);
-       punchHole(20, 60, quarterInchJackHole);
+       punchHole(55, 80, quarterInchJackHole);
+       punchHole(55, 60, quarterInchJackHole);
        punchHole(37.5, 70, switchHole);
-       punchHole(55, 70, quarterInchJackHole);
+       punchHole(20, 70, quarterInchJackHole);
        
        // Eigth to Quarter
-       punchHole(20, 35, eighthInchJackHole);
-       punchHole(55, 35, quarterInchJackHole);
-       punchHole(20, 20, eighthInchJackHole);
-       punchHole(55, 20, quarterInchJackHole);
+       punchHole(55, 35, eighthInchJackHole);
+       punchHole(20, 35, quarterInchJackHole);
+       punchHole(55, 20, eighthInchJackHole);
+       punchHole(20, 20, quarterInchJackHole);
        
-       
+        //Text
+        union(){
+            translate([panelHp*3 + panelNameLeftOffset, fiveUHeight + 11, -.5]){
+                mirror(v=[1,0,0]){
+                    linear_extrude(panelThickness/2) {
+                        text(panelName, font=panelNameFont, size=panelNameSize, halign="left");
+                        }
+                    }
+                }
+            }
+
     }
     
     // Rails
@@ -93,15 +103,16 @@ module kosmoPanel(panelHp,  mountHoles=2, hw = holeWidth, ignoreMountHoles=false
         }
     }
     
-    //Text
-    translate([panelHp/2 + panelNameLeftOffset, fiveUHeight + 11, 0]){
-        union(){
-            linear_extrude(textHeight) {
-                text(panelName, font=panelNameFont, size=panelNameSize, halign="left");
-            }
-        }
     }
-}
+
+module xor(){
+  difference(){
+    for(i = [0 : $children - 1])
+      children(i);
+    intersection_for(i = [0: $children -1])
+      children(i);
+  }                                
+} 
 
 module kosmoMountHoles(php, holes, hw)
 {
