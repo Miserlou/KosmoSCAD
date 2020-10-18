@@ -105,6 +105,28 @@ module kosmoPanel(panelHp,  mountHoles=2, hw = holeWidth, ignoreMountHoles=false
         }
     }
     
+    // PCB Holders
+    union(){
+       l = 5;
+       w = 30;
+       h = 20;
+       translate([0, 30, 0]){
+           polyhedron(
+                   points=[[0,0,0], [l,0,0], [l,w,0], [0,w,0], [0,w,h], [l,w,h]],
+                   faces=[[0,1,2,3],[5,4,3,2],[0,4,5,1],[0,3,4],[5,2,1]]
+                   );
+       }
+       translate([0, 90, 0]){
+           mirror([0,1,0]){
+               polyhedron(
+                       points=[[0,0,0], [l,0,0], [l,w,0], [0,w,0], [0,w,h], [l,w,h]],
+                       faces=[[0,1,2,3],[5,4,3,2],[0,4,5,1],[0,3,4],[5,2,1]]
+                       );
+           }
+       }
+        
+    }
+    
     //Raised Text
     translate([panelHp/2 + 5, fiveUHeight + 11, panelThickness]){
         union(){
