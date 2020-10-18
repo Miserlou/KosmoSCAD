@@ -1,4 +1,4 @@
-<img src="https://i.imgur.com/2inNB4I.png" width="50%">
+<img src="https://i.imgur.com/V6Y27X9.png" width="50%">
 
 # KosmoSCAD
 
@@ -11,6 +11,12 @@ Originally by [@tomarus](https://github.com/tomarus/prototype), modified by [@Mi
 ## Changelog
 
 <img src="https://i.imgur.com/jocBjkV.png" width="50%">
+
+### 0.3.0
+* Add buffer to edge rails
+* Make railWidth parametric
+* Clean up code a bit
+* Add horizontal rails
 
 ### 0.2.1
 * Remove raised text on rear
