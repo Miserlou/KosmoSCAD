@@ -1,4 +1,4 @@
-// KOSMOSCAD
+//  KOSMOSCAD
 // v2 by @Miserlou: https://github.com/Miserlou/KosmoSCAD
 // v1 by @tomarus: https://github.com/tomarus/prototype
 
@@ -38,6 +38,11 @@ eighthInchJackHole = 6.10;
 switchHole = 7.10;
 potHole = 7.10;
 trimHole = 2.5;
+
+railBuffer = 2;
+railWidth = 5;
+
+pcbHole = 3;
 
 /* Functions */
 module kosmoPanel(panelHp,  mountHoles=2, hw = holeWidth, ignoreMountHoles=false)
@@ -95,13 +100,13 @@ module kosmoPanel(panelHp,  mountHoles=2, hw = holeWidth, ignoreMountHoles=false
     
     // Rails
     union(){
-        translate([hp*panelHp - 5, 25, 0]){
-            cube([5, panelOuterHeight - 50, panelThickness * 3]);
+        translate([hp*panelHp - railWidth - railBuffer, 25, panelThickness]){
+            cube([5, panelOuterHeight - 50, panelThickness * 2]);
         }
     }
     union(){
-        translate([0, 25, 0]){
-            cube([5, panelOuterHeight - 50, panelThickness * 3]);
+        translate([railBuffer, 25, panelThickness]){
+            cube([railWidth, panelOuterHeight - 50, panelThickness * 2]);
         }
     }
     
@@ -112,13 +117,13 @@ module kosmoPanel(panelHp,  mountHoles=2, hw = holeWidth, ignoreMountHoles=false
        h = 20;
        difference(){
            union(){
-               translate([0, 30, 0]){
+               translate([railBuffer + railWidth, 30, 0]){
                    polyhedron(
                            points=[[0,0,0], [l,0,0], [l,w,0], [0,w,0], [0,w,h], [l,w,h]],
                            faces=[[0,1,2,3],[5,4,3,2],[0,4,5,1],[0,3,4],[5,2,1]]
                            );
                }
-               translate([0, 90, 0]){
+               translate([railBuffer + railWidth, 90, 0]){
                    mirror([0,1,0]){
                        polyhedron(
                                points=[[0,0,0], [l,0,0], [l,w,0], [0,w,0], [0,w,h], [l,w,h]],
@@ -127,9 +132,9 @@ module kosmoPanel(panelHp,  mountHoles=2, hw = holeWidth, ignoreMountHoles=false
                    }
                }
            }
-           translate([-1, 60, 9]){
+           translate([-1, 60, 10]){
                rotate([45, 0, 0]){
-                    cube([panelHp, 5, 5]);
+                    cube([panelHp, pcbHole, pcbHole]);
                }
            }
         }  
@@ -141,13 +146,13 @@ module kosmoPanel(panelHp,  mountHoles=2, hw = holeWidth, ignoreMountHoles=false
        h = 20;
        difference(){
            union(){
-               translate([0, 100, 0]){
+               translate([railBuffer + railWidth, 100, 0]){
                    polyhedron(
                            points=[[0,0,0], [l,0,0], [l,w,0], [0,w,0], [0,w,h], [l,w,h]],
                            faces=[[0,1,2,3],[5,4,3,2],[0,4,5,1],[0,3,4],[5,2,1]]
                            );
                }
-               translate([0, 160, 0]){
+               translate([railBuffer + railWidth, 160, 0]){
                    mirror([0,1,0]){
                        polyhedron(
                                points=[[0,0,0], [l,0,0], [l,w,0], [0,w,0], [0,w,h], [l,w,h]],
@@ -156,14 +161,20 @@ module kosmoPanel(panelHp,  mountHoles=2, hw = holeWidth, ignoreMountHoles=false
                    }
                }
            }
-           translate([-1, 130, 9]){
+           translate([-1, 130, 10]){
                rotate([45, 0, 0]){
-                    cube([panelHp, 5, 5]);
+                    cube([panelHp, pcbHole, pcbHole]);
                }
            }
         }  
     }
     
+    // Horizontal Rails
+    horizontalRail(45);
+    horizontalRail(90);
+    horizontalRail(140);
+    
+        
     //Raised Text
     // translate([panelHp/2 + 5, fiveUHeight + 11, panelThickness]){
     //    union(){
@@ -175,14 +186,13 @@ module kosmoPanel(panelHp,  mountHoles=2, hw = holeWidth, ignoreMountHoles=false
     
     }
 
-module xor(){
-  difference(){
-    for(i = [0 : $children - 1])
-      children(i);
-    intersection_for(i = [0: $children -1])
-      children(i);
-  }                                
-} 
+module horizontalRail(hozRailX){
+    union(){
+        translate([railBuffer + railWidth, hozRailX, panelThickness]){
+            cube([width_cm * 10 - railWidth - railBuffer * 2, 5, panelThickness*2   ]);
+        }
+    }
+}
 
 module kosmoMountHoles(php, holes, hw)
 {
