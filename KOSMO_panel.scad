@@ -13,6 +13,7 @@ panelNameSize = 10;
 panelNameLeftOffset = 0;
 
 /* Constants */
+width_mm = width_cm*10;
 panelThickness = 2.0;
 textHeight = panelThickness + 1.5;
 panelHp=20;
@@ -86,110 +87,95 @@ module kosmoPanel(panelHp,  mountHoles=2, hw = holeWidth, ignoreMountHoles=false
        punchHole(20, 20, quarterInchJackHole);
        
         // Embossed Text
-        union(){
-            translate([panelHp*3 + panelNameLeftOffset, fiveUHeight + 11, -.5]){
-                mirror(v=[1,0,0]){
-                    chamfer_extrude(height=panelThickness, angle=55, $fn=0){
-                        text(panelName, font=panelNameFont, size=panelNameSize, halign="left");
-                        }
-                    }
-                }
-            }
+        embossText(panelName);
 
     }
     
-    // Rails
-    union(){
-        translate([hp*panelHp - railWidth - railBuffer, 25, panelThickness]){
-            cube([5, panelOuterHeight - 50, panelThickness * 2]);
-        }
-    }
-    union(){
-        translate([railBuffer, 25, panelThickness]){
-            cube([railWidth, panelOuterHeight - 50, panelThickness * 2]);
-        }
-    }
+    // Vertical Rails
+    verticalRail(railBuffer);
+    verticalRail(width_mm - railBuffer - railWidth);
     
     // PCB Holders
-    union(){
-       l = 5;
-       w = 30;
-       h = 20;
-       difference(){
-           union(){
-               translate([railBuffer + railWidth, 30, 0]){
-                   polyhedron(
-                           points=[[0,0,0], [l,0,0], [l,w,0], [0,w,0], [0,w,h], [l,w,h]],
-                           faces=[[0,1,2,3],[5,4,3,2],[0,4,5,1],[0,3,4],[5,2,1]]
-                           );
-               }
-               translate([railBuffer + railWidth, 90, 0]){
-                   mirror([0,1,0]){
-                       polyhedron(
-                               points=[[0,0,0], [l,0,0], [l,w,0], [0,w,0], [0,w,h], [l,w,h]],
-                               faces=[[0,1,2,3],[5,4,3,2],[0,4,5,1],[0,3,4],[5,2,1]]
-                               );
-                   }
-               }
-           }
-           translate([-1, 60, 10]){
-               rotate([45, 0, 0]){
-                    cube([panelHp, pcbHole, pcbHole]);
-               }
-           }
-        }  
-    }
-    
-    union(){
-       l = 5;
-       w = 30;
-       h = 20;
-       difference(){
-           union(){
-               translate([railBuffer + railWidth, 100, 0]){
-                   polyhedron(
-                           points=[[0,0,0], [l,0,0], [l,w,0], [0,w,0], [0,w,h], [l,w,h]],
-                           faces=[[0,1,2,3],[5,4,3,2],[0,4,5,1],[0,3,4],[5,2,1]]
-                           );
-               }
-               translate([railBuffer + railWidth, 160, 0]){
-                   mirror([0,1,0]){
-                       polyhedron(
-                               points=[[0,0,0], [l,0,0], [l,w,0], [0,w,0], [0,w,h], [l,w,h]],
-                               faces=[[0,1,2,3],[5,4,3,2],[0,4,5,1],[0,3,4],[5,2,1]]
-                               );
-                   }
-               }
-           }
-           translate([-1, 130, 10]){
-               rotate([45, 0, 0]){
-                    cube([panelHp, pcbHole, pcbHole]);
-               }
-           }
-        }  
-    }
+    pcbHolder(railBuffer + railWidth, 22);
+    pcbHolder(railBuffer + railWidth, 118);
     
     // Horizontal Rails
     horizontalRail(45);
     horizontalRail(90);
     horizontalRail(140);
     
-        
-    //Raised Text
-    // translate([panelHp/2 + 5, fiveUHeight + 11, panelThickness]){
-    //    union(){
-    //        chamfer_extrude(height=panelThickness, angle=55, $fn=0){
-    //            text(panelName, font=panelNameFont, size=panelNameSize, halign="left");
-    //        }
-    //    }
-    //}
+    // Raised Text
+    // Only use this if you want to print the panel upside down.
+    // raiseText(panelName);
     
     }
 
-module horizontalRail(hozRailX){
+module verticalRail(vertRailX, vertRailY){
+        union(){
+        translate([vertRailX, 25, panelThickness]){
+            cube([railWidth, panelOuterHeight - 50, panelThickness * 2]);
+        }
+    }
+}
+
+module horizontalRail(hozRailY){
     union(){
-        translate([railBuffer + railWidth, hozRailX, panelThickness]){
+        translate([railBuffer + railWidth, hozRailY, panelThickness]){
             cube([width_cm * 10 - railWidth - railBuffer * 2, 5, panelThickness*2   ]);
+        }
+    }
+}
+
+module pcbHolder(x, y){
+   l = 5;
+   w = 30;
+   h = 20;
+    
+    union(){
+       difference(){
+           union(){
+               translate([x, y, 0]){
+                   polyhedron(
+                           points=[[0,0,0], [l,0,0], [l,w,0], [0,w,0], [0,w,h], [l,w,h]],
+                           faces=[[0,1,2,3],[5,4,3,2],[0,4,5,1],[0,3,4],[5,2,1]]
+                           );
+               }
+               translate([x, y+60, 0]){
+                   mirror([0,1,0]){
+                       polyhedron(
+                               points=[[0,0,0], [l,0,0], [l,w,0], [0,w,0], [0,w,h], [l,w,h]],
+                               faces=[[0,1,2,3],[5,4,3,2],[0,4,5,1],[0,3,4],[5,2,1]]
+                               );
+                   }
+               }
+           }
+    translate([x-2, y+w, 10]){
+       rotate([45, 0, 0]){
+            cube([pcbHole*3, pcbHole, pcbHole]);
+       }
+   }
+        }  
+    }
+}
+
+module embossText(tstring){
+    union(){
+        translate([panelHp*3 + panelNameLeftOffset, fiveUHeight + 11, -.5]){
+            mirror(v=[1,0,0]){
+                chamfer_extrude(height=panelThickness, angle=55, $fn=0){
+                    text(tstring, font=panelNameFont, size=panelNameSize, halign="left");
+                    }
+                }
+            }
+        }
+}
+
+module raiseText(tstring){
+     translate([panelHp/2 + 5, fiveUHeight + 11, panelThickness]){
+        union(){
+            chamfer_extrude(height=panelThickness, angle=55, $fn=0){
+                text(tstring, font=panelNameFont, size=panelNameSize, halign="left");
+            }
         }
     }
 }
