@@ -1,4 +1,4 @@
-<img src="https://i.imgur.com/W7DaB9L.png" width="50%">
+<img src="https://i.imgur.com/8D8hyLR.png" width="50%">
 
 # KosmoSCAD
 
@@ -11,6 +11,7 @@ Originally by [@tomarus](https://github.com/tomarus/prototype), modified by [@Mi
 ## Changelog
 
 <img src="https://i.imgur.com/jocBjkV.png" width="50%">
+
 ### 0.2.0
 * Emboss chamfered front panel text
 * Add rails for support
