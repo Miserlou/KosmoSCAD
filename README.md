@@ -10,6 +10,7 @@ Originally by [@tomarus](https://github.com/tomarus/prototype), modified by [@Mi
 
 ## Changelog
 
+<img src="https://i.imgur.com/jocBjkV.png" width="50%">
 ### 0.2.0
 * Emboss chamfered front panel text
 * Add rails for support
