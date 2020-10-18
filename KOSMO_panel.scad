@@ -80,7 +80,7 @@ module kosmoPanel(panelHp,  mountHoles=2, hw = holeWidth, ignoreMountHoles=false
        punchHole(55, 20, eighthInchJackHole);
        punchHole(20, 20, quarterInchJackHole);
        
-        //Text
+        // Embossed Text
         union(){
             translate([panelHp*3 + panelNameLeftOffset, fiveUHeight + 11, -.5]){
                 mirror(v=[1,0,0]){
@@ -96,12 +96,21 @@ module kosmoPanel(panelHp,  mountHoles=2, hw = holeWidth, ignoreMountHoles=false
     // Rails
     union(){
         translate([hp*panelHp - 5, 25, 0]){
-            cube([5, panelOuterHeight - 50, textHeight * 2]);
+            cube([5, panelOuterHeight - 50, panelThickness * 3]);
         }
     }
     union(){
         translate([0, 25, 0]){
-            cube([5, panelOuterHeight - 50, textHeight * 2]);
+            cube([5, panelOuterHeight - 50, panelThickness * 3]);
+        }
+    }
+    
+    //Raised Text
+    translate([panelHp/2 + 5, fiveUHeight + 11, panelThickness]){
+        union(){
+            chamfer_extrude(height=panelThickness, angle=55, $fn=0){
+                text(panelName, font=panelNameFont, size=panelNameSize, halign="left");
+            }
         }
     }
     
