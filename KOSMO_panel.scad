@@ -3,12 +3,12 @@
 // v1 by @tomarus: https://github.com/tomarus/prototype
 
 /* Edit Me! */
-width_cm = 10.0;
+width_cm = 7.5;
 
 panelName = "Utility";
 panelNameFont = "Gill Sans:style=Bold";
 panelNameSize = 12;
-panelNameLeftOffset = 15;
+panelNameLeftOffset = 0;
 
 /* Constants */
 panelThickness = 2.0;
@@ -52,33 +52,45 @@ module kosmoPanel(panelHp,  mountHoles=2, hw = holeWidth, ignoreMountHoles=false
        */
        
        // 3:1 Passive Multiplier 
-       punchHole(25, 175, quarterInchJackHole); 
-       punchHole(75, 175, quarterInchJackHole);
-       punchHole(25, 160, quarterInchJackHole); 
-       punchHole(75, 160, quarterInchJackHole);
+       punchHole(20, 175, quarterInchJackHole); 
+       punchHole(55, 175, quarterInchJackHole);
+       punchHole(20, 160, quarterInchJackHole); 
+       punchHole(55, 160, quarterInchJackHole);
         
        // Passive Attenuators
-       punchHole(25, 130, quarterInchJackHole);
-       punchHole(50, 130, potHole);
-       punchHole(75, 130, quarterInchJackHole);
+       punchHole(20, 130, quarterInchJackHole);
+       punchHole(37.5, 130, potHole);
+       punchHole(55, 130, quarterInchJackHole);
 
-       punchHole(25, 110, quarterInchJackHole);
-       punchHole(50, 110, potHole);
-       punchHole(75, 110, quarterInchJackHole);
+       punchHole(20, 110, quarterInchJackHole);
+       punchHole(37.5, 110, potHole);
+       punchHole(55, 110, quarterInchJackHole);
        
        // Switch
-       punchHole(25, 80, quarterInchJackHole);
-       punchHole(25, 60, quarterInchJackHole);
-       punchHole(50, 70, switchHole);
-       punchHole(75, 70, quarterInchJackHole);
+       punchHole(20, 80, quarterInchJackHole);
+       punchHole(20, 60, quarterInchJackHole);
+       punchHole(37.5, 70, switchHole);
+       punchHole(55, 70, quarterInchJackHole);
        
        // Eigth to Quarter
-       punchHole(25, 35, eighthInchJackHole);
-       punchHole(75, 35, quarterInchJackHole);
-       punchHole(25, 20, eighthInchJackHole);
-       punchHole(75, 20, quarterInchJackHole);
+       punchHole(20, 35, eighthInchJackHole);
+       punchHole(55, 35, quarterInchJackHole);
+       punchHole(20, 20, eighthInchJackHole);
+       punchHole(55, 20, quarterInchJackHole);
        
        
+    }
+    
+    // Rails
+    union(){
+        translate([hp*panelHp - 5, 25, 0]){
+            cube([5, panelOuterHeight - 50, textHeight * 2]);
+        }
+    }
+    union(){
+        translate([0, 25, 0]){
+            cube([5, panelOuterHeight - 50, textHeight * 2]);
+        }
     }
     
     //Text
