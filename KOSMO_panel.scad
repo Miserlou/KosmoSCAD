@@ -92,8 +92,8 @@ module kosmoPanel(panelHp,  mountHoles=2, hw = holeWidth, ignoreMountHoles=false
     }
     
     // Vertical Rails
-    verticalRail(railBuffer);
-    verticalRail(width_mm - railBuffer - railWidth);
+    verticalRail(railBuffer, 25);
+    verticalRail(width_mm - railBuffer - railWidth, 25);
     
     // PCB Holders
     pcbHolder(railBuffer + railWidth, 22);
@@ -111,23 +111,46 @@ module kosmoPanel(panelHp,  mountHoles=2, hw = holeWidth, ignoreMountHoles=false
     }
 
 module verticalRail(vertRailX, vertRailY){
-        union(){
-        translate([vertRailX, 25, panelThickness]){
+    
+    union(){
+        translate([vertRailX, vertRailY, panelThickness]){
             cube([railWidth, panelOuterHeight - 50, panelThickness * 2]);
         }
     }
+    
+   l = railWidth;
+   w = railWidth * 2;
+   h = railWidth;
+   translate([vertRailX, vertRailY - 10, 1]){
+       polyhedron(
+               points=[[0,0,0], [l,0,0], [l,w,0], [0,w,0], [0,w,h], [l,w,h]],
+               faces=[[0,1,2,3],[5,4,3,2],[0,4,5,1],[0,3,4],[5,2,1]]
+               );
+   }
+   
+   translate([vertRailX, vertRailY + panelOuterHeight - 50, 0]){
+       translate([l, w, 1]){
+           rotate([0, 0, 180]){
+             polyhedron(
+                   points=[[0,0,0], [l,0,0], [l,w,0], [0,w,0], [0,w,h], [l,w,h]],
+                   faces=[[0,1,2,3],[5,4,3,2],[0,4,5,1],[0,3,4],[5,2,1]]
+             );
+           }
+       }
+   }
+
 }
 
 module horizontalRail(hozRailY){
     union(){
         translate([railBuffer + railWidth, hozRailY, panelThickness]){
-            cube([width_cm * 10 - railWidth - railBuffer * 2, 5, panelThickness*2   ]);
+            cube([width_cm * 10 - railWidth - railBuffer * 2, railWidth, panelThickness*2   ]);
         }
     }
 }
 
 module pcbHolder(x, y){
-   l = 5;
+   l = railWidth;
    w = 30;
    h = 20;
     
@@ -139,7 +162,7 @@ module pcbHolder(x, y){
                            points=[[0,0,0], [l,0,0], [l,w,0], [0,w,0], [0,w,h], [l,w,h]],
                            faces=[[0,1,2,3],[5,4,3,2],[0,4,5,1],[0,3,4],[5,2,1]]
                            );
-               }
+                }
                translate([x, y+60, 0]){
                    mirror([0,1,0]){
                        polyhedron(
