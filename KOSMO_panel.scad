@@ -165,13 +165,13 @@ module kosmoPanel(panelHp,  mountHoles=2, hw = holeWidth, ignoreMountHoles=false
     }
     
     //Raised Text
-    translate([panelHp/2 + 5, fiveUHeight + 11, panelThickness]){
-        union(){
-            chamfer_extrude(height=panelThickness, angle=55, $fn=0){
-                text(panelName, font=panelNameFont, size=panelNameSize, halign="left");
-            }
-        }
-    }
+    // translate([panelHp/2 + 5, fiveUHeight + 11, panelThickness]){
+    //    union(){
+    //        chamfer_extrude(height=panelThickness, angle=55, $fn=0){
+    //            text(panelName, font=panelNameFont, size=panelNameSize, halign="left");
+    //        }
+    //    }
+    //}
     
     }
 
